@@ -1,23 +1,31 @@
-from flask import Flask, render_template, request, redirect, url_for
-
+from flask import Flask, render_template, request
 app = Flask(__name__)
 
-# Home Route
 @app.route('/')
-def home():
-    return render_template('index.html')
+def contact_form():
+    return render_template('/contact.html')
 
-# Contact Form Route
-@app.route('/contact', methods=['GET', 'POST'])
-def contact():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-        message = request.form.get('message')
-        # In a real app, you would handle this data (e.g., store it in a database)
-        return f"Thank you for your message, {name}! We will get back to you at {email}."
+@app.route('/submit', methods=['POST'])
+def submit():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    phone_number = request.form.get('phone_number')
+    message = request.form.get('message')
+    subject = request.form.get('subject')
+    preferred_contact = request.form.get('preferred_contact')
+    agreement = request.form.get('agreement')
 
-    return render_template('contact.html')
+    return render_template(
+        'Confirmation.html',
+        name=name,
+        email=email,
+        phone_number=phone_number,
+        message=message,
+        subject=subject,
+        preferred_contact=preferred_contact,
+        agreement=agreement,
+     )
 
-if __name__ == '__main__':
+
+if __name__ == '__name__':
     app.run(debug=True)
